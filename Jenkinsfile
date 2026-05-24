@@ -1,33 +1,14 @@
 pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-                script {
-                    sh """
-                        echo "Building"
-                    """
-                }
-            }
+    agent {
+        node {
+            label 'ROBOSHOP'
         }
-        stage('Test') {
-            steps {
-                script {
-                    sh """
-                        echo "Testing"
-                    """
-                }
-                
-            }
-        }
-        stage('Deploy') {
-            steps {
-                script {
-                    sh """
-                        echo "Deploying"
-                    """
-                }
-            }
+    }
+    stages { ...
+    }
+    post {
+        always {
+            echo "I will always say Hello world"
         }
     }
 }
