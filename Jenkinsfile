@@ -5,7 +5,7 @@ pipeline {
         }
     }
     environment {
-        COURSE = jenkins
+        COURSE = "jenkins"
     }
     options {
         disableConcurrentBuilds()
