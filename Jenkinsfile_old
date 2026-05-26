@@ -11,5 +11,8 @@ pipeline {
         always {
             echo "I will always say Hello world"
         }
+        success {
+            echo "pipeline success"
+        }
     }
 }
