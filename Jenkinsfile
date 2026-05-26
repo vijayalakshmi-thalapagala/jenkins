@@ -10,6 +10,7 @@ pipeline {
                 script {
                     sh """
                         echo "Building"
+                        exit 1
                     """
                 }
             }
@@ -33,9 +34,16 @@ pipeline {
             }
         }
     }
+    //post Build
     post {
         always {
             echo "I will always say Hello world"
+        }
+        success {
+            echo "pipeline success"
+        }
+        failure {
+            echo "pipeline failure"
         }
     }
 }
