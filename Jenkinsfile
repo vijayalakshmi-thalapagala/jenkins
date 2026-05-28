@@ -1,11 +1,31 @@
 pipeline {
-    agent any
-    stages {
+    agent {
+        node {
+            label 'roboshop'
+        }
+    }
+    environment {
+        COURSE = "jenkins"
+    }
+    options {
+        disableConcurrentBuilds()
+        timeout(time: 5, unit: 'MINUTES')
+    }
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+    }
+    stages { 
         stage('Build') {
             steps {
                 script {
                     sh """
                         echo "Building"
+                        echo $COURSE
+                        sleep 10
                     """
                 }
             }
@@ -15,9 +35,13 @@ pipeline {
                 script {
                     sh """
                         echo "Testing"
+                        echo "Hello ${params.PERSON}"
+                        echo "Biography: ${params.BIOGRAPHY}"
+                        echo "Toggle: ${params.TOGGLE}"
+                        echo "Choice: ${params.CHOICE}"
+                        echo "Password: ${params.PASSWORD}"
                     """
-                }
-                
+                }    
             }
         }
         stage('Deploy') {
@@ -28,6 +52,18 @@ pipeline {
                     """
                 }
             }
+        }
+    }
+    //post Build
+    post {
+        always {
+            echo "I will always say Hello world"
+        }
+        success {
+            echo "pipeline success"
+        }
+        failure {
+            echo "pipeline failure"
         }
     }
 }
